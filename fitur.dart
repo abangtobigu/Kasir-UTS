@@ -249,9 +249,48 @@ void simpanRiwayat(int total, int diskon, int uang, int kembalian) {
   });
 }
 
-/// Menu 7 [Sulit]: menampilkan struk semua transaksi.
+// ============================================================
+// MENU 7: RIWAYAT TRANSAKSI
+// ============================================================
+
 void tampilkanRiwayat() {
-  // TODO: tampilkan setiap transaksi di riwayatTransaksi seperti struk:
-  // isi belanja, total, diskon, total bayar, uang, dan kembalian.
-  print('Fitur belum tersedia.');
+  if (riwayatTransaksi.isEmpty) {
+    print('\nBelum ada riwayat transaksi.');
+    return;
+  }
+
+  print('\n========== RIWAYAT TRANSAKSI ==========');
+
+  for (final transaksi in riwayatTransaksi) {
+    print('\nNomor transaksi: ${transaksi['nomor']}');
+    print('---------------------------------------');
+
+    final barangTransaksi =
+        transaksi['barang'] as Map<String, int>;
+
+    barangTransaksi.forEach((kode, jumlah) {
+      final barang = cariByKode(kode);
+
+      if (barang != null) {
+        final nama = barang['nama'];
+        final harga = barang['harga'] as int;
+
+        print(
+          '$kode | $nama | $jumlah x Rp$harga '
+          '= Rp${harga * jumlah}',
+        );
+      } else {
+        print('$kode | Barang tidak ditemukan');
+      }
+    });
+
+    print('---------------------------------------');
+    print('Total belanja : Rp${transaksi['total']}');
+    print('Diskon        : Rp${transaksi['diskon']}');
+    print('Total bayar   : Rp${transaksi['totalBayar']}');
+    print('Uang diterima : Rp${transaksi['uang']}');
+    print('Kembalian     : Rp${transaksi['kembalian']}');
+    print('=======================================');
+  }
 }
+
